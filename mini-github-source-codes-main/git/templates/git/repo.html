@@ -1,0 +1,270 @@
+{% extends 'git/baseUserRepo.html' %}
+{% load index %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'git/repo.css' %}">
+{% endblock %}
+
+
+{% block topContent %}
+
+<!-- Page-header start -->
+<div class="page-header">
+  <div class="page-blck">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <div class='custom'>
+                <div class='ntg'>
+                <img
+                  class="img-80 img-radius"
+                  src="{{ user.avatar_url }}"
+                  alt="User-Profile-Image"
+                  style="width: 125px"
+                />
+                <h5 class="m-b-10" style="font-size: 1.59em">{{ user.login }}</h5>
+                </div>
+
+                <div class='details'>
+                        <h6><img class='iconss' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Followers</span> : {{ user.followers }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Following</span> : {{ user.following }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/material-two-tone/24/000000/marker.png"/><span class='text-mutedm'>Location</span> : {{ user.location }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/ios-filled/50/000000/code-file.png"/><span class='text-mutedm'>Repositories: </span> : {{ user.public_repos }}</h6>
+                        {% if user.blog %}
+                        <h6>Blog: <a href="{{ user.blog }}">{{ user.blog }}</a></h6>
+                        {% endif %}
+                        <h6><img class='iconss' src="https://img.icons8.com/ios-filled/50/000000/company.png"/> <span class='text-mutedm'>Company</span> : {{ user.company }}</h6>
+                </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Page-header end -->
+
+{% endblock topContent %}
+
+
+{% block leftContent %}
+
+<div class="pcoded-inner-navbar main-menu">
+  <div class="">
+
+    <div class="main-menu-header">
+    <a href="{% url 'user_detail' user.login|slugify %}">
+
+      <img
+        class="img-80 img-radius"
+        src="{{ user.avatar_url }}"
+        alt="User-Profile-Image"
+        style="width: 145px"
+      />
+      <div class="user-details">
+        <span id="more-details" style="font-size: 1.59em"
+          >{{ user.login }}
+        </span>
+      </div>
+    </a>
+
+    </div>
+
+
+  </div>
+  <div class="p-15 p-b-0">
+    <form
+      class="form-material"
+      method="GET"
+      action="{% url 'search_repo_in_user' user.slug %}"
+    >
+      <div class="form-group form-primary">
+        <input
+          type="text"
+          name="searched_repo"
+          class="form-control"
+          value="{{searched_repo}}"
+        />
+        <span class="form-bar"></span>
+        <label class="float-label"
+          ><i class="fa fa-search m-r-10"></i>Search Repository</label
+        >
+      </div>
+    </form>
+  </div>
+  <p class=""></p>
+  <div class='left-det'>
+    <h6><img class='iconss1' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Followers</span> : {{ user.followers }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Following</span> : {{ user.following }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/material-two-tone/24/000000/marker.png"/><span class='text-mutedm'>Location</span> : {{ user.location }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/ios-filled/50/000000/code-file.png"/><span class='text-mutedm'>Repositories: </span> : {{ user.public_repos }}</h6>
+    {% if user.blog %}
+    <h6>Blog: <a rel='nofollow' href="{{ user.blog }}">{{ user.blog }}</a></h6>
+    {% endif %}
+    <h6><img class='iconss1' src="https://img.icons8.com/ios-filled/50/000000/company.png"/> <span class='text-mutedm'>Company</span> : {{ user.company }}</h6>
+  </div>
+</div>
+
+{% endblock leftContent %}
+
+
+{% block rightContent %}
+
+<div class="page-body">
+
+<div class="">
+
+        <!-- task, page, download counter  start -->
+        <div class="">
+            <div class="card">
+                <div class="card-block">
+                    <div class="align-items-center">
+                        <div class="m-l-20 m-t-20">
+                            <a href="{% url 'repo_detail' user.slug repo.name repo.id %}">
+                                <h4 class="text-c-purple">{{ repo.name }}</h4>
+                            </a>
+                            {% if repo.language %}
+                                <h5 class=" m-b-5">{{ repo.language }}</h5>
+                            {% endif %}
+
+                            {% if repo.all_languages %}
+                            <hr>
+                            <div class="parent-lang-box">
+
+                                    {% for key,value in repo.all_languages.items %}
+                                    <div>
+
+                                    <h6 class="">{{ key }}</h6>
+                                        
+                                    <span class="lang-box" style="width:{{ total_count|get_percentage:value }}%;
+                                    min-width: 20%;">
+                                    </span>
+                                    <span class=" m-b-5 ">{{ value }}
+                                        <span class="text-muted"
+                                        style="font-size: 0.6em;">{{ total_count|get_exact_percentage:value }}%</span>
+                                    </span>
+                                </div>
+
+                                    {% endfor %}
+
+                            </div>
+                            {% endif %}
+
+                            {% if repo.fork %}
+                            <hr>
+                            
+                                <h6> Forked from 
+                                    {% for user in repo.forked_from.all %}
+                                        <a href="{% url 'user_detail' user.slug %}">{{ user.login }}/{{ repo.name|slugify }}</a>                                        
+                                    {% endfor %}
+                                </h6>
+                            {% endif %}
+                            <hr>
+                            
+                            <h6 class="text-muted m-b-4">Watchers  : {{ repo.watchers_count }}</h6>
+                            <h6 class="text-muted m-b-5">Stargazers: {{ repo.stargazers_count }}</h6>
+                            <h6 class="text-muted m-b-0">Forks: {{ repo.forks_count }}</h6>
+                            
+                            <hr>
+                            {% if repo.description %}
+                            {{ repo.description }}
+                            {% endif %}
+                            
+
+
+                            {% if repo.topics.all %}
+                            <br>
+                            <hr>
+                            <div>
+                                {% for topic in repo.topics.all %}
+                                <a href="{% url 'repos_in_topic' topic topic.id%}">
+                                    
+                                <span 
+                                style = "background-color: rgba(125, 200, 243, 0.828);
+                                padding: 3px 8px;
+                                border-radius: 20px;
+                                color: darkblue;
+                                white-space: nowrap;
+                                margin-right: 10px;
+                                line-height: 30px"
+                                >#{{ topic }}</span>
+                                </a>
+
+                            {% endfor %}
+                              </div>  
+                            {% endif %}
+
+                            {% if repo.read_me %}
+                            <br><br>
+                            <h4> READ ME </h4>
+                            <hr>
+                            <pre style='white-space: break-spaces;' class=" m-b-5">{{ repo.read_me }}</pre>
+
+                            {% endif %}
+
+                            {% if repo.stargazers.all %}
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="m-b-0 text-align-centre">STARGAZERS</h5>
+                            <hr>
+                            {% for user in repo.stargazers.all %}
+                            <a href="{% url 'user_detail' user.slug %}">
+                                <span class="breadcrumps">{{ user.login }}</span>
+                            </a>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if repo.watchers.all %}
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="m-b-0 text-align-centre">WATCHERS</h5>
+                            <hr>
+                            {% for user in repo.watchers.all %}
+                            <a href="{% url 'user_detail' user.slug %}">
+                                <span class="breadcrumps">{{ user.login }}</span>
+                            </a>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if repo.contributors.all %}
+
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="m-b-0 text-align-centre">CONTRIBUTORS</h5>
+                            <hr>
+                            {% for user in repo.contributors.all %}
+                            <a href="{% url 'user_detail' user.slug %}">
+                                <span class="breadcrumps">{{ user.login }}</span>
+                            </a>
+                            {% endfor %} 
+                            {% endif %}
+
+                            {% if repo.forkers.all %}
+
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="m-b-0 text-align-centre">FORKERS</h5>
+                            <hr>
+                            {% for user in repo.forkers.all %}
+                            <a href="{% url 'user_detail' user.slug %}">
+                                <span class="breadcrumps">{{ user.login }}</span>
+                            </a>
+                            {% endfor %}                                                      
+                            {% endif %}                                                      
+                        </div>
+
+                        <div class="col-4 text-right">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+</div>
+
+{% endblock rightContent %}
+

@@ -1,0 +1,108 @@
+{% extends 'git/baseUserRepo.html' %}
+{% load static %}
+
+
+{% block rightContent %}
+
+
+    <div class="p-15 p-b-0">
+        <form
+          autocomplete = 'off'
+          class="form-material"
+          method="GET"
+          action="{% url 'search_repo'%}"
+        >
+          {% csrf_token %}
+          <div class="form-group form-primary">
+            <input
+              type="search"
+              name="searched_repo"
+              class="form-control"
+              {% if searched %}
+                value = "{{searched}}"
+              {% endif %}
+            />
+            <span class="form-bar"></span>
+            <label class="float-label"
+              ><i class="fa fa-search m-r-10"></i>Search Repositories</label
+            >
+          </div>
+        </form>
+      </div>
+
+<h3 style='background-color: rgba(10, 51, 148, 0.883);
+            color: white;
+            background-color: transparent;
+            color: rgba(10, 51, 148, 0.883);
+            border: 1px solid rgba(10, 51, 148, 0.883);
+            text-align: center;
+            padding: 20px 0;
+'>TRENDING TOPICS</h3>
+<hr>
+{% for topic in trending_topics %}
+{% comment %} <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a> {% endcomment %}
+<a href="#"><span class="tn">{{ topic.topic }}</span></a>
+{% endfor %}
+
+
+    <div class=""> 
+    {% for repo in repos %}
+    <div class="ccCard">
+        <a href="#">
+
+        <div class="check-out">
+        </a>
+
+        <div class="name-details">
+            <a  href="{% url 'repo_detail' repo.owner.slug repo.name repo.id %}">
+                <h4 class="cctitlej" style="margin-top: -10px; font-size:1.9em; color:blue;">
+                    {{ repo.name }} </h4>
+                </a>
+                <br>
+                <a href="{% url 'user_detail' repo.owner.login|slugify %}">
+                    <h5 class="cctitlej" style="margin-top: -10px;">
+                        {{ repo.owner.login }} </h5><hr>
+                </a>
+                {% if repo.language %}
+                <span style='font-size:1.3em; color: blue;'>
+                   {{ repo.language }} <br>
+                </span>
+                {% endif %}
+                    <span  class='text-muted' style='font-size:1.1em;'>
+                        <img style='width:18.5px;
+                        opacity:0.6;
+                        margin-right: 5px;'
+                         src="https://img.icons8.com/external-gradak-royyan-wijaya/24/000000/external-eyes-gradak-interface-solidarity-gradak-royyan-wijaya.png"/><span class='text-muted'>watchers :</span>{{ repo.watchers_count }}
+                  </span>
+                  <br>
+                  <span  class='text-muted' style='font-size:1.1em;'>
+                    <img style='width:18.5px;
+                    opacity:0.9;
+                    margin-right: 5px;'
+                    src="https://img.icons8.com/windows/32/000000/star--v1.png"/><span >stargazers :</span>{{ repo.stargazers_count }}
+                </span>
+                <br>
+                <span class='text-muted' style='font-size:1.1em;'>
+                    <span class='text-muted'>forks :</span>{{ repo.forks_count }}
+                </span>
+
+                </h4>
+            </a>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="ccbottom">
+
+        <a  href="{% url 'repo_detail' repo.owner.slug repo.name repo.id %}" style='font-size:1.2em;'>
+            View Full Details
+        </a>
+
+    </div>
+    
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock rightContent %}

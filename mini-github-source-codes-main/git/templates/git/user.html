@@ -1,0 +1,209 @@
+{% extends 'git/baseUserRepo.html' %} 
+
+{% block titlee %}
+<title>{{user.login}} Page</title>
+
+{% endblock titlee %}
+
+
+{% block topContent %}
+
+<!-- Page-header start -->
+<div class="page-header">
+  <div class="page-blck">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <div class='custom'>
+                <div class='ntg'>
+                <img
+                  class="img-80 img-radius"
+                  src="{{ user.avatar_url }}"
+                  alt="User-Profile-Image"
+                  style="width: 125px; margin-top: 14px; margin-right: 12px;"
+                />
+                </div>
+
+                <div class='details'>
+                        <h6><img class='iconss' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Followers</span> : {{ user.followers }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Following</span> : {{ user.following }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/material-two-tone/24/000000/marker.png"/><span class='text-mutedm'>Location </span> : {{ user.location }}</h6>
+                        <h6><img class='iconss' src="https://img.icons8.com/ios-filled/50/000000/code-file.png"/><span class='text-mutedm'>Repositories </span> : {{ user.public_repos }}</h6>
+                        {% if user.blog %}
+                        <h6>Blog: <a rel='nofollow' href="{{ user.blog }}">{{ user.blog }}</a></h6>
+                        {% endif %}
+                        <h6><img class='iconss' src="https://img.icons8.com/ios-filled/50/000000/company.png"/> <span class='text-mutedm'>Company</span> : {{ user.company }}</h6>
+                </div>
+        </div>
+        <h5 class="m-b-10" style="
+        font-size: 1.69em;
+        text-align: center;
+        margin-top: 8px;
+        ">{{ user.login }}</h5>
+        <h6 class="m-b-10" style="
+        font-size: 1.3em;
+        text-align: center;
+        padding-bottom: 20px;">{{ user.name }}</h6>
+      </div>
+      {% comment %} <div class="col-md-4">
+        <ul class="breadcrumb-title">
+          <h2>ihiohihu</h2>
+          <li class="breadcrumb-item">
+            <a href="index.html"> <i class="fa fa-home"></i> </a>
+          </li>
+          <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+        </ul>
+      </div> {% endcomment %}
+    </div>
+  </div>
+</div>
+<!-- Page-header end -->
+
+{% endblock topContent %} 
+
+{% block leftContent %}
+
+<div class="pcoded-inner-navbar main-menu">
+  <div class="">
+    <div class="main-menu-header">
+      <img
+        class="img-80 img-radius"
+        src="{{ user.avatar_url }}"
+        alt="User-Profile-Image"
+        style="width: 145px"
+      />
+      <div class="user-details">
+        <span id="more-details" style="font-size: 1.59em"
+          >{{ user.login }}</span>
+        <span id="more-details" style="font-size: 1.1em"
+          >{{ user.name }}</span>
+      </div>
+    </div>
+
+    {% comment %} <div class="main-menu-content">
+      <ul>
+        <li class="more-details">
+          <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
+          <a href="#!"><i class="ti-settings"></i>Settings</a>
+          <a href="auth-normal-sign-in.html"
+            ><i class="ti-layout-sidebar-left"></i>Logout</a
+          >
+        </li>
+      </ul>
+    </div> {% endcomment %}
+
+  </div>
+  <div class="p-15 p-b-0">
+    <form
+      class="form-material"
+      autocomplete = 'off'
+      method="GET"
+      action="{% url 'search_repo_in_user' user.slug %}"
+    >
+      <div class="form-group form-primary">
+        <input
+          type="text"
+          name="searched_repo"
+          class="form-control"
+          value="{{searched_repo}}"
+        />
+        <span class="form-bar"></span>
+        <label class="float-label"
+          ><i class="fa fa-search m-r-10"></i>Search Repository</label
+        >
+      </div>
+    </form>
+  </div>
+  <div class='left-det'>
+    <h6><img class='iconss1' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Followers</span> : {{ user.followers }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/external-flat-icons-inmotus-design/67/000000/external-follower-follower-flat-icons-inmotus-design-3.png"/> <span class='text-mutedm'>Following</span> : {{ user.following }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/material-two-tone/24/000000/marker.png"/><span class='text-mutedm'>Location</span> : {{ user.location }}</h6>
+    <h6><img class='iconss1' src="https://img.icons8.com/ios-filled/50/000000/code-file.png"/><span class='text-mutedm'>Repositories</span> : {{ user.public_repos }}</h6>
+    {% if user.blog %}
+    <h6>Blog: <a rel='nofollow' href="{{ user.blog }}">{{ user.blog }}</a></h6>
+    {% endif %}
+    <h6><img class='iconss1' src="https://img.icons8.com/ios-filled/50/000000/company.png"/> <span class='text-mutedm'>company</span> : {{ user.company }}</h6>
+  </div>
+</div>
+
+{% endblock leftContent %} {% block rightContent %}
+
+<div class="page-body">
+  <img class="gitStats" src="{{ user.git_stats_url }}" alt="" />
+  <img class="mLU" src="{{ user.most_used_languages_url }}" alt="" />
+  <br/>
+  <br/>
+  <hr/>
+  <br/>
+  {% if user.has_details %}
+  
+  <div class="row">
+
+    {% if searched_repo %}
+      {% if not repos %}
+      
+      <h5 style='text-align:center;'> No matching repos available... <h5>
+      
+      {% endif %}
+    {% endif %}
+
+
+
+
+    {% for repo in repos %}
+    <!-- task, page, download counter  start -->
+    <div class="col-xl-4 col-md-6">
+      <div class="card">
+        <div class="card-block">
+          <div class="">
+            <div class="">
+              <a href="{% url 'repo_detail' user.slug repo.name repo.id %}">
+                <h4 class="text-c-purple">{{ repo.name }}</h4>
+              </a>
+              <h5 class="m-b-5">{{ repo.language }}</h5>
+              <hr />
+              <h6 class="m-b-0">
+                <img style='width:18.5px;
+                opacity:0.6;
+                margin-right: 5px;'
+                 src="https://img.icons8.com/external-gradak-royyan-wijaya/24/000000/external-eyes-gradak-interface-solidarity-gradak-royyan-wijaya.png"/><span class='text-muted'>watchers :</span>{{ repo.watchers_count }}
+              </h6>
+              <h6 class="m-b-0">
+                <img style='width:18.5px;
+                opacity:0.6;
+                margin-right: 5px;'
+                src="https://img.icons8.com/windows/32/000000/star--v1.png"/><span class='text-muted'>stargazers :</span>{{ repo.stargazers_count }}
+              </h6>
+              <br>
+              <h6 class="m-b-0">
+<span class='text-muted'>forks :</span>{{ repo.forks_count }}
+              </h6>
+
+            </div>
+            <div class="col-4 text-right">
+              {% comment %} <i class="fa fa-bar-chart f-28"></i> {% endcomment%}
+            </div>
+          </div>
+        </div>
+        <a href="{% url 'repo_detail' user.slug repo.name repo.id %}">
+          <div class="card-footer bg-c-purple">
+            <div class="row align-items-center">
+              <div class="col-9">
+                <p class="text-white m-b-0">View Full Details</p>
+              </div>
+              <div class="col-3 text-right">
+                <i class="fa fa-line-chart text-white f-16"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+
+  <h4> The details will be updated soon. Check back later. Have a nice day! ;) </h4>  
+  {% endif %}
+  {% endblock rightContent %}
+</div>

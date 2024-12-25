@@ -1,0 +1,207 @@
+{% extends 'git/baseUserRepo.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'git/homeeee.css' %}">  
+{% endblock css %}
+
+
+
+{% block topContent %}
+
+<!-- Page-header start -->
+<div class="page-headr" style='margin-top:20px;background-image:none; background-color:#b4dce9;'>
+  <div class="page-blck" style='margin-top:76px;background-image:none; background-color:white;'>
+    <div class="align-items-center" >
+                    <a href='{% url 'repo_page' %}'>
+                    <h4 style='
+                                color: rgba(10, 51, 148, 0.883);
+                                border: 1px solid rgba(10, 51, 148, 0.883);
+                                text-align: center;
+                                padding: 10px 5px;
+                                margin: 10px 20px;
+                    '>Repositories</h4></a>
+                    <a href='{% url 'home' %}'>
+                        <h4 style='
+                                    color: rgba(10, 51, 148, 0.883);
+                                    border: 1px solid rgba(10, 51, 148, 0.883);
+                                    text-align: center;
+                                    padding: 10px 5px;
+                                    margin: 10px 20px;
+                        '>Users</h4></a>
+                    
+                    <a href='{% url 'topics' %}'>
+                      <h4 style='
+                                  color: rgba(10, 51, 148, 0.883);
+                                  border: 1px solid rgba(10, 51, 148, 0.883);
+                                  text-align: center;
+                                  padding: 10px 5px;
+                                  margin: 10px 20px;
+                      '>Topics</h4></a>
+                    
+                      <a href='{% url 'trending_repo' %}'>
+                        <h4 style='
+                                    color: rgba(10, 51, 148, 0.883);
+                                    border: 1px solid rgba(10, 51, 148, 0.883);
+                                    text-align: center;
+                                    padding: 10px 5px;
+                                    margin: 10px 20px;
+                        '>Trending Repositories</h4></a>
+
+                    
+
+                    <hr>
+                    <div class='pcoded-inner-content' style='margin-left:15px;'>
+
+                    
+                    <h5 style='margin:0px 5px 5px 5px; color:#294fa8;'> Have a look at these topics..!</h5>
+                    <div style='margin:0px 0px;'>
+                    {% for topic in top_topics %}
+                    <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a>
+                    {% endfor %}
+                    </div>
+
+                  </div>
+    </div>
+  </div>
+</div>
+<!-- Page-header end -->
+
+{% endblock topContent %} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block rightContent %}
+
+
+    <div class="p-15 p-b-0">
+        <form
+        autocomplete = 'off'
+          class="form-material"
+          method="GET"
+          action="{% url 'search_user'%}"
+        >
+          <div class="form-group form-primary">
+            <input
+              type="text"
+              name="searched_user"
+              class="form-control"
+              {% if searched %}
+                value = "{{searched}}"
+              {% endif %}
+            />
+            <span class="form-bar"></span>
+            <label class="float-label"
+              ><i class="fa fa-search m-r-10"></i>Search Users</label
+            >
+          </div>
+        </form>
+      </div>
+
+<h3 style='background-color: rgba(10, 51, 148, 0.883);
+            color: white;
+            background-color: transparent;
+            color: rgba(10, 51, 148, 0.883);
+            border: 1px solid rgba(10, 51, 148, 0.883);
+            text-align: center;
+            padding: 9px 0;
+'>TRENDING TOPICS</h3>
+<hr>
+{% for topic in trending_topics %}
+{% comment %} <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a> {% endcomment %}
+<a href="#"><span class="tn">{{ topic.topic }}</span></a>
+{% endfor %}
+
+
+    <div class=""> 
+
+      {% if searched %}
+      {% if not users %}
+      
+      <h5 style='text-align:center; margin: 30px 0px;'> No matching Users available...Check back later or try again with a different key word <h5>
+      
+      {% endif %}
+    {% endif %}
+
+
+    {% for user in users %}
+    <div class="ccCard">
+        <a href="{% url 'user_detail' user.login|slugify %}">
+
+        <div class="check-out">
+        <!-- <a style="width: 30%;" href="{% url 'user_detail' user.login|slugify %}"> -->
+        <img class="user-img" src="{{ user.avatar_url }}" alt="">
+        </a>
+        <a href="{% url 'user_detail' user.login|slugify %}">
+
+        <div class="name-details">
+                <h4 class="cctitlej" style="margin-top: -10px;">
+                    {{ user.login }} </h4>
+                    {% if user.name %}
+                    <h5 class="ccyearj" style="font-size:1.2em; margin-bottom:10px;">
+                      {{ user.name }} 
+                    </h5>
+                    {% endif %}
+                  {% if user.created_at %}
+
+                    <span  class='text-muted'>
+                      Followers: {{ user.followers }} | Following: {{ user.following }}
+                  </span>
+                  <br>
+                  <span  class='text-muted'>
+                    Member since {{ user.created_at|date:"M, Y" }}
+                </span>
+                {% else %}
+                <span  class='text-muted'>
+                  Details will be updated soon!
+              </span>
+                  {% endif %}
+
+                    {% if user.bio %}
+                    <hr>
+                    <span>
+                       {{ user.bio }}
+                    </span>
+                    {% endif %}
+
+
+
+                </h4>
+            </a>
+        </div>
+      </a>
+
+    </div>
+
+        <div class="ccbottom">
+          {% if user.html_url %}
+            <a rel='nofollow' href="{{ user.html_url }}">
+              {{ user.html_url }}
+            </a>
+          {% else %}
+            <a rel='nofollow' href="https://github.com/{{ user.login }}">
+              https://github.com/{{ user.login }}
+            </a>
+          {% endif %}
+
+        </div>
+    </div>
+    {% endfor %}
+
+    <p>Number of users in database: {{count}}({{count1}})</p>
+</div>
+
+{% endblock rightContent %}

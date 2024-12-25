@@ -1,0 +1,146 @@
+{% extends 'git/baseUserRepo.html' %} 
+{% load static %}
+
+
+{% block topContent %}
+
+<!-- Page-header start -->
+<div class="page-headr" style='margin-top:20px;background-image:none; background-color:white;'>
+  <div class="page-blck" style='margin-top:76px;background-image:none; background-color:white;'>
+    <div class="align-items-center" >
+                    <a href='{% url 'repo_page' %}'>
+                    <h4 style='
+                                color: rgba(10, 51, 148, 0.883);
+                                border: 1px solid rgba(10, 51, 148, 0.883);
+                                text-align: center;
+                                padding: 10px 5px;
+                                margin: 10px 20px;
+                    '>Repositories</h4></a>
+                    <a href='{% url 'home' %}'>
+                        <h4 style='
+                                    color: rgba(10, 51, 148, 0.883);
+                                    border: 1px solid rgba(10, 51, 148, 0.883);
+                                    text-align: center;
+                                    padding: 10px 5px;
+                                    margin: 10px 20px;
+                        '>Users</h4></a>
+                    
+                    <a href='{% url 'topics' %}'>
+                      <h4 style='
+                                  color: rgba(10, 51, 148, 0.883);
+                                  border: 1px solid rgba(10, 51, 148, 0.883);
+                                  text-align: center;
+                                  padding: 10px 5px;
+                                  margin: 10px 20px;
+                      '>Topics</h4></a>
+                    
+
+                    <hr>
+                    <div class='pcoded-inner-content' style='margin-left:15px;'>
+
+                    
+                    <h5 style='margin:0px 5px 5px 5px; color:#294fa8;'> Have a look at these topics..!</h5>
+                    <div style='margin:0px 0px;'>
+                    {% for topic in top_topics %}
+                    <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a>
+                    {% endfor %}
+                    </div>
+
+                  </div>
+    </div>
+  </div>
+</div>
+<!-- Page-header end -->
+
+{% endblock topContent %} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block rightContent %}
+
+<h3 style='background-color: rgba(76, 124, 236, 0.883);
+color: white;
+text-align: center;
+padding: 10px 0;
+'>TRENDING REPOSITORIES</h3>
+<br>
+
+
+<div class=""> 
+    {% for repo in trending_repos %}
+    <div class="ccCard">
+
+        <div class="check-out">
+        <div class="name-details" style="margin-left: 0px;">
+
+
+                <h4 class="cctitlej" style="margin-top: -10px;">
+                    {{ repo.name }} </h4>
+                    {% if repo.language %}
+                    <h5 class="ccyearj" style="font-size:1.2em;">
+                        {{ repo.language }} 
+                    </h5>
+                    <br>
+                    {% endif %}
+                    <span style="font-size:1.2em; color:rgb(27, 24, 29);">
+                        {{ repo.description }}
+                    </span><br><br>
+                    <h6 class="m-b-0">
+                        <img style='width:18.5px;
+                        opacity:0.6;
+                        margin-right: 5px;'
+                         src="https://img.icons8.com/external-gradak-royyan-wijaya/24/000000/external-eyes-gradak-interface-solidarity-gradak-royyan-wijaya.png"/><span class='text-muted'>Total forks: </span>{{ repo.total_forks }}
+                      </h6>
+                      <h6 class="m-b-0">
+                        <img style='width:18.5px;
+                        opacity:0.6;
+                        margin-right: 5px;'
+                        src="https://img.icons8.com/windows/32/000000/star--v1.png"/><span class='text-muted'>Total stars :</span>{{ repo.total_stars }}
+                      </h6>
+                </h4>
+            </a>
+        </div>
+    </div>
+
+            {% for key,value in repo.items %}
+                {% if key == "builders" %}
+                    <h5>Builders:</h5>
+                    <hr>
+                    {% for x in value %}
+                        {% for key,value in x.items %}
+                            {% if key == "user_img_url" %}
+                                {% comment %} <img src="{{value}}"> {% endcomment %}
+                                <img style="width:40px;" class="user-img" src="{{value}}" alt="hjj">
+
+                            {% else %}
+                                {% comment %} <h2>{{value}}</h2> {% endcomment %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            <div class="ccbottom">
+                   <h6 style="margin-top:20px;"> {{ repo.stars_today }}</h6>
+            </div>
+
+    </div> 
+    {% endfor %}
+</div> 
+
+
+
+  {% endblock rightContent %}
+

@@ -1,0 +1,165 @@
+{% extends 'git/baseUserRepo.html' %}
+
+
+
+{% block leftContent %}
+<h3 style='background-color: rgba(10, 51, 148, 0.883);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+'>TRENDING TOPICS</h3>
+<hr>
+
+<div class="p-15 p-b-0">
+  <form
+    class="form-material"
+    method="GET"
+    action="{% url 'search_topic'%}"
+  >
+    <div class="form-group form-primary">
+      <input
+        type="text"
+        name="searched_topic"
+        class="form-control"
+        {% if searched %}
+          value = "{{searched}}"
+        {% endif %}
+      />
+      <span class="form-bar"></span>
+      <label class="float-label"
+        ><i class="fa fa-search m-r-10"></i>Search Topics</label
+      >
+    </div>
+  </form>
+</div>
+
+{% for topic in trending_topics %}
+{% comment %} <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a> {% endcomment %}
+<a href="#"><span class="tn">{{ topic.topic }}</span></a>
+{% endfor %}
+
+<br>
+
+<a href='{% url 'repo_page' %}'>
+  <h4 style='
+              color: rgba(10, 51, 148, 0.883);
+              border: 1px solid rgba(10, 51, 148, 0.883);
+              text-align: center;
+              padding: 10px 5px;
+              margin: 10px 20px;
+  '>Repositories</h4></a>
+  
+  <a href='{% url 'topics' %}'>
+    <h4 style='
+                color: rgba(10, 51, 148, 0.883);
+                border: 1px solid rgba(10, 51, 148, 0.883);
+                text-align: center;
+                padding: 10px 5px;
+                margin: 10px 20px;
+    '>Topics</h4></a>
+  
+    <a href='{% url 'trending_repo' %}'>
+      <h4 style='
+                  color: rgba(10, 51, 148, 0.883);
+                  border: 1px solid rgba(10, 51, 148, 0.883);
+                  text-align: center;
+                  padding: 10px 5px;
+                  margin: 10px 20px;
+      '>Trending Repositories</h4></a>
+      <br><br>
+
+{% endblock leftContent %}
+
+
+
+{% block rightContent %}
+
+<h2 class="mst-h2">Here are {{ repos_in_topic.all.count }} Repositories under topic {{ topic.topic }}</h2>
+<br>
+<div class="p-15 p-b-0 topic-hide "style="display: none;">
+    <form
+      class="form-material"
+      method="GET"
+      action="{% url 'search_topic'%}"
+    >
+      <div class="form-group form-primary">
+        <input
+          type="text"
+          name="searched_topic"
+          class="form-control"
+          {% if searched %}
+            value = "{{searched}}"
+          {% endif %}
+        />
+        <span class="form-bar"></span>
+        <label class="float-label"
+          ><i class="fa fa-search m-r-10"></i>Search Topics</label
+        >
+      </div>
+    </form>
+  </div>
+
+<div class="row">
+
+{% for repo in repos_in_topic  %}
+        <!-- task, page, download counter  start -->
+        <div class="col-xl-4 col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <a href="{% url 'repo_detail' repo.owner.slug repo.name repo.id %}">
+                                <h4 class="text-c-purple">{{ repo.name }}</h4>
+                            </a>
+                            <a href="{% url 'user_detail' repo.owner.slug %}">
+                                <h4 class=" m-b-5">{{ repo.owner.login }}</h4>
+                            </a>
+                            <hr>
+                            <h6 class="text-muted m-b-0">{{ repo.language }}</h6>
+                            <hr>
+                            <h6 class="text-muted m-b-0">Watchers: {{ repo.watchers_count }}</h6>
+                            <h6 class="text-muted m-b-0">Stargazers: {{ repo.stargazers_count }}</h6>
+
+                        </div>
+
+                    </div>
+                </div>
+              <div style="margin-left: 20px;">
+                {% for topic in repo.topics.all %}
+                <a href="{% url 'repos_in_topic' topic topic.id %}">
+
+                <span
+                style = "background-color: rgba(125, 200, 243, 0.828);
+                padding: 3px 8px;
+                border-radius: 20px;
+                white-space: nowrap;
+                color: darkblue;
+                margin-right: 10px;
+                line-height: 30px"
+                >#{{ topic }}</span>
+
+                </a>
+            {% endfor %}
+              </div>  
+              <br>
+
+                <a href="{% url 'repo_detail' repo.owner.slug repo.name repo.id %}">
+                    <div class="card-footer bg-c-purple">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <p class="text-white m-b-0">View Full Details</p>
+                            </div>
+                            <div class="col-3 text-right">
+                                <i class="fa fa-line-chart text-white f-16"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+{% endfor %}
+
+</div>
+
+{% endblock rightContent %}
+

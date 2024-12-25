@@ -1,0 +1,27 @@
+.breadcrumps{
+    color: blue;
+    background-color: rgba(117, 117, 246, 0.37);
+    padding: 5px 20px;
+    line-height: 40px;
+    margin-right: 10px;
+    white-space: nowrap;
+    border-radius: 20px;
+}
+.main-menu .main-menu-header img {
+    position: relative;
+    width: 145px;
+}
+
+.parent-lang-box div h6{
+    margin-bottom: -2px;
+}
+.parent-lang-box div{
+    margin-bottom: 10px;
+}
+.lang-box{
+    width: 80%;
+    background-color: #124ee96e;
+    height: 5px;
+    border-radius: 10px;
+    display: inline-block;
+}

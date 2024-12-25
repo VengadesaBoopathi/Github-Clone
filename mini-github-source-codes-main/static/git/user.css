@@ -1,0 +1,38 @@
+.repo-content{
+    margin-top: 30px;
+}
+.custom{
+    display: grid;
+    grid-template-columns: 40% 70%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.ntg img{
+    filter: drop-shadow();
+    margin-bottom: 3px;
+}
+.ntg{
+    margin-left: 7px;
+    text-align: center;
+}
+.ntg h5{
+    text-align: center;
+}
+.custom .details{
+    margin-top: 10px;
+    margin-left: 0px;
+}
+.iconss, .iconss1{
+    width: 18.5px;
+    margin-right: 3px;
+}
+.left-det{
+    margin-left: 8px;
+}
+.iconss{
+    filter: invert();
+    opacity: 0.8;
+}
+.text-mutedm{
+    color: #102d4a;
+}

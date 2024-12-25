@@ -1,0 +1,297 @@
+{% extends 'git/baseUserRepo.html' %}
+{% load static %}
+
+
+
+{% block topContent %}
+
+<!-- Page-header start -->
+<div class="page-headr" style='margin-top:20px;background-image:none; background-color:white;'>
+  <div class="page-blck" style='margin-top:76px;background-image:none; background-color:white;'>
+    <div class="align-items-center" >
+                    <a href='{% url 'repo_page' %}'>
+                    <h4 style='
+                                color: rgba(10, 51, 148, 0.883);
+                                border: 1px solid rgba(10, 51, 148, 0.883);
+                                text-align: center;
+                                padding: 10px 5px;
+                                margin: 10px 20px;
+                    '>Repositories</h4></a>
+                    <a href='{% url 'home' %}'>
+                        <h4 style='
+                                    color: rgba(10, 51, 148, 0.883);
+                                    border: 1px solid rgba(10, 51, 148, 0.883);
+                                    text-align: center;
+                                    padding: 10px 5px;
+                                    margin: 10px 20px;
+                        '>Users</h4></a>
+                    
+
+                    
+                      <a href='{% url 'trending_repo' %}'>
+                        <h4 style='
+                                    color: rgba(10, 51, 148, 0.883);
+                                    border: 1px solid rgba(10, 51, 148, 0.883);
+                                    text-align: center;
+                                    padding: 10px 5px;
+                                    margin: 10px 20px;
+                        '>Trending Repositories</h4></a>
+
+                    
+
+                    <hr>
+                    <div class='pcoded-inner-content' style='margin-left:15px;'>
+
+                    
+                    <h5 style='margin:0px 5px 5px 5px; color:#294fa8;'> Have a look at these topics..!</h5>
+                    <div style='margin:0px 0px;'>
+                    {% for topic in top_topics %}
+                    <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a>
+                    {% endfor %}
+                    </div>
+
+                  </div> <hr>
+<br>
+                  <div class="p-15 p-b-0">
+                    <form
+                      class="form-material"
+                      method="GET"
+                      action="{% url 'search_topic'%}"
+                    >
+                      <div class="form-group form-primary">
+                        <input
+                          type="text"
+                          name="searched_topic"
+                          class="form-control"
+                          {% if searched %}
+                            value = "{{searched}}"
+                          {% endif %}
+                        />
+                        <span class="form-bar"></span>
+                        <label class="float-label"
+                          ><i class="fa fa-search m-r-10"></i>Search Topics</label
+                        >
+                      </div>
+                    </form>
+                  </div>
+    </div>
+  </div>
+</div>
+<!-- Page-header end -->
+
+{% endblock topContent %} 
+
+
+
+
+
+
+{% block leftContent %}
+<h3 style='background-color: rgba(10, 51, 148, 0.883);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+'>TRENDING TOPICS</h3>
+<hr>
+
+<div class="p-15 p-b-0">
+  <form
+    class="form-material"
+    method="GET"
+    action="{% url 'search_topic'%}"
+  >
+    <div class="form-group form-primary">
+      <input
+        type="text"
+        name="searched_topic"
+        class="form-control"
+        {% if searched %}
+          value = "{{searched}}"
+        {% endif %}
+      />
+      <span class="form-bar"></span>
+      <label class="float-label"
+        ><i class="fa fa-search m-r-10"></i>Search Topics</label
+      >
+    </div>
+  </form>
+</div>
+
+{% for topic in trending_topics %}
+{% comment %} <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a> {% endcomment %}
+<a href="#"><span class="tn">{{ topic.topic }}</span></a>
+{% endfor %}
+
+<br><br>
+
+
+<a href='{% url 'repo_page' %}'>
+  <h4 style='
+              color: rgba(10, 51, 148, 0.883);
+              border: 1px solid rgba(10, 51, 148, 0.883);
+              text-align: center;
+              padding: 10px 5px;
+              margin: 10px 20px;
+  '>Repositories</h4></a>
+  
+  <a href='{% url 'topics' %}'>
+    <h4 style='
+                color: rgba(10, 51, 148, 0.883);
+                border: 1px solid rgba(10, 51, 148, 0.883);
+                text-align: center;
+                padding: 10px 5px;
+                margin: 10px 20px;
+    '>Topics</h4></a>
+  
+    <a href='{% url 'trending_repo' %}'>
+      <h4 style='
+                  color: rgba(10, 51, 148, 0.883);
+                  border: 1px solid rgba(10, 51, 148, 0.883);
+                  text-align: center;
+                  padding: 10px 5px;
+                  margin: 10px 20px;
+      '>Trending Repositories</h4></a>
+      <br><br>
+
+{% endblock leftContent %}
+
+
+{% block rightContent %}
+
+<div class='hidee' style="display: none;">
+
+  <h3 style='background-color: rgba(10, 51, 148, 0.883);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+'>TRENDING TOPICS</h3>
+<hr>
+
+
+{% for topic in trending_topics %}
+{% comment %} <a href="{% url 'trending_repos_in_topic' topic.topic|slugify %}"><span class="tn">{{ topic.topic }}</span></a> {% endcomment %}
+<a href="#"><span class="tn">{{ topic.topic }}</span></a>
+{% endfor %}
+<br><br>
+</div>
+
+
+
+
+
+<div>
+    <h2 class="mst-h2">MOST SEARCHED TOPICS</h2>
+    <br>
+    <hr>
+
+    <div class="p-15 p-b-0 topic-hide "style="display: none;">
+      <form
+        class="form-material"
+        method="GET"
+        action="{% url 'search_topic'%}"
+      >
+        <div class="form-group form-primary">
+          <input
+            type="text"
+            name="searched_topic"
+            class="form-control"
+            {% if searched %}
+              value = "{{searched}}"
+            {% endif %}
+          />
+          <span class="form-bar"></span>
+          <label class="float-label"
+            ><i class="fa fa-search m-r-10"></i>Search Topics</label
+          >
+        </div>
+      </form>
+    </div>
+
+    <div class=""> 
+
+     {% if not most_searched_topics %}
+        <h5 style='text-align:center;'> No matching topics available, try with a different keyword... <h5>
+     {% endif %} 
+
+
+      {% for topic in most_searched_topics %}
+      <div class="ccCard">
+        <a href="{% url 'repos_in_topic' topic topic.id %}">
+  
+          <div class="check-out">
+            {% if topic.img_url %}
+          <img class="user-img" src="{{ topic.img_url }}" alt="{{ topic.topic }}">
+
+            {% else %}
+          <img class="user-img" src="{% static 'git/download.png' %}" alt="{{ topic.topic }}">
+
+            {% endif %}
+          <div class="name-details">
+                  <h4 class="cctitlej" style="margin-top: -10px;">
+                    {{ topic.topic }} 
+                      <h5 class="ccyearj" style="font-size:1.2em;">
+                      {{ user.name }} 
+                      </h5>
+                      {% if topic.description %}
+                      <span  class='text-muted'>
+                        {{ topic.description }}
+                    </span><br>
+                      {% else %}
+                      <span  class='text-muted'>
+                        Something really interesting about {{ topic.topic }}
+                    </span><br>
+                      {% endif %}
+
+
+                  </h4>
+              </a>
+          </div>
+      </div>
+  
+          <div class="ccbottom">
+              <a href="{{ user.html_url }}">
+                  {{ user.html_url }}
+              </a>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+
+
+
+
+
+    {% comment %} <div class="ue-cards">
+      {% for topic in most_searched_topics %}
+
+      <figure class="snip1527">
+        <a href="{% url 'repos_in_topic' topic topic.id %}"></a>
+        <div class="ue-image">
+          {% if topic.img_url %}
+          <img src="{{ topic.img_url }}" alt="{{ topic.topic }}" />
+          {% else %}
+          <img src="{% static 'git/download.png' %}" alt="{{ topic.topic }}" />
+          {% endif %}
+        </div>
+        <figcaption>
+          <div class="date">
+            <span class="day">{{ forloop.counter }}</span
+            ><span class="month">No.</span>
+          </div>
+          <h3>{{ topic.topic }}</h3>
+
+          {% if topic.description %}
+          <p>{{ topic.description }}</p>
+          {% else %}
+          <p>Something really interesting about {{ topic.topic }}</p>
+          {% endif %}
+        </figcaption>
+        </a>
+      </figure>
+
+      {% endfor %}
+    </div>
+  </div> {% endcomment %}
+
+{% endblock rightContent %}
+
